@@ -1,0 +1,9 @@
+# OpenEvolve TSP Demo —— Python 套件需求
+# 安裝:pip install -r requirements.txt
+#
+# 注意:本地 LLM(codegemma)不是 pip 套件,
+#       它由 Ollama 管理,請用 `ollama pull codegemma:2b` 下載。
+
+openevolve        # 演化框架本體
+nest_asyncio      # 讓 openevolve 能在 notebook 裡跑(解決 event loop 衝突)
+matplotlib        # 畫 TSP 路線圖(route.png)

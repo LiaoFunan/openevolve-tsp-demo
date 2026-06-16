@@ -1,0 +1,12 @@
+{
+  // 在整合終端機自動把工作目錄設成專案根目錄
+  "python.terminal.executeInFileDir": false,
+  // 存檔時不自動格式化(避免動到 EVOLVE-BLOCK 標記)
+  "editor.formatOnSave": false,
+  // notebook 與 .py 都用同一個 Python 直譯器
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/openevolve_output": false
+  }
+}

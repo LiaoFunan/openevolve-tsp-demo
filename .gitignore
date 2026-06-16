@@ -1,0 +1,14 @@
+# OpenEvolve 產生的輸出(不要進 repo)
+openevolve_output/
+route.png
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 系統
+.DS_Store
+Thumbs.db

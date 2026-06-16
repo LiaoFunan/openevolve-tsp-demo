@@ -1,0 +1,33 @@
+# ============================================================
+#  OpenEvolve 設定檔 —— 課堂用(本地 Ollama + 千問 qwen2.5-coder)
+# ============================================================
+#  用 qwen2.5-coder:7b —— 小模型裡寫 diff 最穩的,演化效果可靠。
+#  (codegemma:2b 等小模型寫不出合格 diff,會整場空轉,故改用此模型。)
+#
+#  顯卡夠力(20GB+)可換 qwen2.5-coder:14b,品質更好;
+#  記得 notebook 第 1 步的 ollama pull 也要改成一樣的名字。
+#
+#  注意:api_key 寫 "ollama" 是必要的假值。
+#  Ollama 不檢查金鑰,但 OpenAI 相容客戶端硬性要求要有,不可省略。
+# ============================================================
+
+max_iterations: 30        # 課堂用,刻意縮小,確保快速跑完
+
+llm:
+  api_base: "http://localhost:11434/v1"   # 本機 Ollama 位址
+  api_key: "ollama"                        # 假金鑰(必填,Ollama 不檢查)
+  models:
+    - name: "qwen2.5-coder:7b"             # 課前已用 ollama pull 下載的模型
+      api_base: "http://localhost:11434/v1"
+      api_key: "ollama"
+      weight: 1.0
+  temperature: 0.7
+  max_tokens: 4096
+
+database:
+  population_size: 6
+  num_islands: 2
+
+prompt:
+  num_top_programs: 2
+  num_diverse_programs: 1
