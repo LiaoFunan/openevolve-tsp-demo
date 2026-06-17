@@ -1,26 +1,56 @@
 # ============================================================
-#  OpenEvolve 設定檔 —— 課堂用(本地 Ollama + 7B 模型)
+#  OpenEvolve 設定檔 —— 課堂用(本地 Ollama + 千問 qwen2.5-coder)
 # ============================================================
-#  這份設定刻意為「最差情況的 8GB 顯卡」調過,壓小 context、降低 VRAM 壓力。
-#  如果你的顯卡是 20GB 以上(RTX 4000 Ada / Blackwell),
-#  可以把 model 換成 qwen2.5-coder:14b,並把下面的數字調大,效果更好。
+#  用 qwen2.5-coder:7b。
+#
+#  ★ diff_based_evolution: false
+#     讓模型直接「重寫整個程式」,而非輸出嚴格 diff 格式,
+#     本地模型才寫得出來(否則整場 No valid diffs 空轉)。
+#
+#  ★ prompt.system_message
+#     給模型的「工作守則」,叮嚀它一定要寫 import、保留 cities 參數,
+#     大幅減少 name 'random'/'cities' is not defined 這類 0 分。
+#
+#  注意:api_key 寫 "ollama" 是必要假值(Ollama 不檢查,但客戶端要求要有)。
 # ============================================================
 
-# ---- LLM:連到「本機」的 Ollama ----
+max_iterations: 30
+diff_based_evolution: false
+max_code_length: 8000
+
 llm:
-  api_base: "http://localhost:11434/v1"   # 本機 Ollama 的位址,不用改
-  model: "qwen2.5-coder:7b"                # 課前已用 ollama pull 下載的模型
+  api_base: "http://localhost:11434/v1"
+  api_key: "ollama"
+  models:
+    - name: "qwen2.5-coder:7b"
+      api_base: "http://localhost:11434/v1"
+      api_key: "ollama"
+      weight: 1.0
   temperature: 0.7
   max_tokens: 4096
 
-# ---- 演化規模:課堂用,刻意縮小,確保 30 代內快速跑完 ----
-max_iterations: 30
-
 database:
-  population_size: 6      # 同時維持的程式數量(小=省 VRAM、跑得快)
-  num_islands: 2          # 平行演化的「島」數量
+  population_size: 6
+  num_islands: 2
 
-# ---- prompt:壓小塞給 LLM 的歷史版本數量,減輕 8GB 卡的 KV cache 壓力 ----
 prompt:
-  num_top_programs: 2     # 參考「最好的幾個」版本
-  num_diverse_programs: 1 # 參考「比較不一樣的」版本(維持多樣性)
+  num_top_programs: 2
+  num_diverse_programs: 1
+  system_message: |
+    你是演算法最佳化專家,任務是改進一個求解 TSP(旅行推銷員問題)的 Python 程式,
+    目標是讓 solve(cities) 回傳的路線總距離越短越好。
+
+    你必須重寫整個程式,並嚴格遵守以下規則(違反任何一條都會導致程式無法執行而被淘汰):
+
+    1. 一定要在檔案最上方寫齊所有 import,尤其是 import random 和 import math。
+       如果你的程式用到 random.shuffle、random.choice、math.hypot 等,務必先 import。
+    2. 函式簽名固定為 def solve(cities):,參數名稱「一定」是 cities,絕對不要改名或省略。
+    3. 函式內只能使用傳入的 cities 參數,不可引用任何未定義的全域變數
+       (例如不要憑空使用 city_list、coords 等沒定義的名稱)。
+    4. solve(cities) 必須回傳一個「城市索引的清單」,例如 [0, 3, 1, 2, ...],
+       長度等於城市數量,且每個索引(0 到 n-1)恰好出現一次,不可重複、不可遺漏。
+    5. 距離計算用歐式距離:math.hypot(ax-bx, ay-by)。城市座標是 (x, y) 的 tuple。
+    6. 確保整個程式可以直接執行,沒有語法錯誤、縮排錯誤或未定義的名稱。
+
+    可以採用的最佳化技巧:最近鄰法、2-opt 交換、多起點重啟、模擬退火等。
+    請在保證「程式能正確執行」的前提下,讓路線盡量短。

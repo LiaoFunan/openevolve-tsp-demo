@@ -99,16 +99,16 @@ python run.py
 ## 六、常見問題
 
 **Q：跑 `run.py` 一直卡住沒反應?**
-A：確認 Ollama 服務有開著。命令列執行 `ollama list`,要能看到 `qwen2.5-coder:7b`。
-   如果沒有,跑 `ollama pull qwen2.5-coder:7b` 重新下載。
+A：確認 Ollama 服務有開著。命令列執行 `ollama list`,要能看到 `codegemma:2b`。
+   如果沒有,跑 `ollama pull codegemma:2b` 重新下載。
 
 **Q：顯卡是 20GB 以上(RTX 4000 Ada / Blackwell),想要更好的效果?**
-A：把 `config.yaml` 裡的 `model` 改成 `qwen2.5-coder:14b`,
-   並先 `ollama pull qwen2.5-coder:14b`。14B 的演化品質更好。
+A：把 `config.yaml` 裡的 `model` 改成 `codegemma:7b`,
+   並先 `ollama pull codegemma:7b`。7B 的演化品質更好。
 
 **Q：跑很慢?**
 A：8GB 顯卡跑 7B 屬正常稍慢。若想更快可改 `config.yaml` 把 `max_iterations` 調小,
-   或把模型換成更小的 `qwen2.5-coder:3b`(品質略降但快很多)。
+   (codegemma:2b 已是小模型,若仍慢可把 `max_iterations` 調小)。
 
 **Q：分數沒怎麼進步?**
 A：LLM 演化有隨機性,偶爾某幾代沒進展是正常的。多跑幾代、或把 `max_iterations` 調大即可。

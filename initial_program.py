@@ -10,9 +10,16 @@ TSP 求解器 —— 演化起點(刻意寫得很笨)
 
 OpenEvolve 會讓 LLM 一代一代改寫下面這個 solve() 函式,
 加入像 2-opt、模擬退火、多起點重啟等技巧,讓總路線越來越短。
+
+★ 改寫時的硬性規則(務必遵守,否則程式會跑不動被淘汰):
+  1. 保留所有 import,要用到 random 就一定要 import random、要用 math 就 import math。
+  2. 函式簽名固定 def solve(cities):,參數名一定是 cities,不可改名。
+  3. 只能用傳入的 cities,不要用未定義的全域變數。
+  4. 回傳城市索引清單,每個索引(0..n-1)恰好出現一次。
 """
 
 import math
+import random  # 預留:演化常用到隨機(多起點、shuffle 等),先 import 避免漏掉
 
 
 def distance(a, b):
