@@ -11,48 +11,108 @@
 
 ---
 
-## 一、事前需求(請在上課前裝好)
+## 一、事前需求(國立中興大學資訊科學大樓 701 電腦教室的 Windows 版已經有了，但如果你想在自己的電腦上試請前準備好)
 
-1. **Ollama** —— 到 https://ollama.com 下載安裝(Windows / Mac / Linux 都有)
-2. **Python 3.10 以上** —— https://www.python.org(Windows 安裝時請勾選 *Add to PATH*)
-3. 一張 **顯卡**(NVIDIA 8GB VRAM 以上即可,RTX 4000 系列都沒問題)
+1. 一張 **顯卡**(NVIDIA 8GB VRAM 以上即可,RTX 4000 系列都沒問題)
+2. Visual Studio Code https://code.visualstudio.com/
+3. 如果電腦裡沒有 Git 可打開 Visual Studio Code 後點擊左方的 Source Control 按鈕依指示安裝：
 
----
+<img width="400" height="368" alt="image" src="https://github.com/user-attachments/assets/fa336306-fd63-48ee-8e8c-dd6de24d5b55" />
 
-## 二、安裝(課前一定要先做完!)
-
-> ⚠️ **重要:第 2 步會下載約 4.7GB 的模型,請務必在上課前先在家裡網路下載好。**
-> 不要等到課堂現場才下載,以免卡住跟不上進度。
-
-**下載這個專案:**
-```bash
-git clone https://github.com/LiaoFunan/openevolve-tsp-demo.git
-cd openevolve-tsp-demo
-```
-
-**Mac / Linux:**
-```bash
-chmod +x setup.sh
-./setup.sh
-```
-
-**Windows:**
-```
-雙擊 setup.bat   (或在命令列執行 setup.bat)
-```
-
-腳本會自動:安裝 OpenEvolve → 下載模型 → 跑一次測試。
-看到最後出現 `✅ 安裝完成!` 就代表環境 OK。
+或直接去 https://git-scm.com/ 下載安裝也可以。
 
 ---
 
-## 三、開始演化
+## 二、Clone 本專案
 
-```bash
-python run.py
-```
+點擊本專案左上方 Code 按鈕，然後點 Copy URL to clipboard 複製網址
 
-你會看到一代一代的日誌,**分數慢慢往上爬**(初始約 0.75,會越來越接近 1.0 甚至更高),
+<img width="1295" height="660" alt="image" src="https://github.com/user-attachments/assets/b919ea34-44a3-4f84-ac8e-d5d462441350" />
+
+打開 Visual Studio Code 後點擊左方的 Source Control 按鈕再點擊 Clone Repository 按鈕，然後把剛剛複製的網址貼上去
+
+<img width="706" height="368" alt="image" src="https://github.com/user-attachments/assets/d7595073-be67-40e4-ad5b-59fe9481f6ae" />
+
+隨便選一個之後要用來放程式的資料夾，我這裡選 PyCharmMiscProject
+
+<img width="946" height="533" alt="image" src="https://github.com/user-attachments/assets/b379836b-e0b1-4701-a8af-5d5701988e60" />
+
+點 Open
+
+<img width="364" height="125" alt="image" src="https://github.com/user-attachments/assets/e2ea2da7-af1f-4221-8169-04326c477eff" />
+
+點 Yes, I trust the authors
+
+<img width="706" height="544" alt="image" src="https://github.com/user-attachments/assets/9dc0be00-1ec5-4611-a0d0-00b020f725a1" />
+
+點 Install
+
+<img width="706" height="544" alt="image" src="https://github.com/user-attachments/assets/0f1b285c-45ed-46b7-aed0-70d5e692180e" />
+
+---
+
+## 二、建 environment 及安裝 OpenEvolve
+
+非必要，但開始用 Pyhton 寫程式之後系統可能會開始有一大堆 python.exe，很難說它們會不會被放到 PATH 裡？被放到 PATH 裡的那個是不是你現在在用的那個... 等等。為了跳過無聊的鬧劇，也避免你在別人的電腦上跑的時候改到別人的設定，新建一個 environment 是比較簡單的選擇。
+
+點開隨便一個 .py 檔案，這裡我們點 evaluator.py。然後點右下角的 Python 3.14 (64-bit)
+
+<img width="1010" height="436" alt="image" src="https://github.com/user-attachments/assets/f89464da-ac3b-4602-a709-46b3267a7109" />
+
+點 Create Virtual Environment...
+
+<img width="1010" height="464" alt="image" src="https://github.com/user-attachments/assets/b328aeb1-b1c4-4e84-96f2-09e0894509fc" />
+
+我個人會選 Conda。如果這裡沒有 Conda 的選項，可以去 https://www.anaconda.com/ 下載安裝再從頭來一次
+
+<img width="1010" height="464" alt="image" src="https://github.com/user-attachments/assets/cd5ff77f-aa4f-439e-817b-648129ddaa38" />
+
+選 Prefix 就好
+
+<img width="1010" height="464" alt="image" src="https://github.com/user-attachments/assets/09549f1e-b7ee-4de5-8fe1-2b870dfe820e" />
+
+選最新的，這裡是 Python 3.14.2
+
+<img width="1010" height="464" alt="image" src="https://github.com/user-attachments/assets/789ecdb3-a5ab-496d-a949-75f3f75ac440" />
+
+點 Terminal 內的 New Terminal
+
+<img width="1408" height="465" alt="image" src="https://github.com/user-attachments/assets/04d29bd9-0367-4ba7-a148-660f7ba993d8" />
+
+點 + 選 Command Prompt
+
+<img width="1408" height="465" alt="image" src="https://github.com/user-attachments/assets/c4160e18-68d0-4e8f-837b-e47caf203e54" />
+
+輸入 pip install openevolve matplotlib 按下 Enter 以安裝 OpenEvolve
+<img width="1622" height="1032" alt="image" src="https://github.com/user-attachments/assets/b81da15b-e7a1-4979-93fb-646c7cd57548" />
+
+看到下面這個畫面就是裝完了
+
+<img width="1622" height="1032" alt="image" src="https://github.com/user-attachments/assets/377f1194-81bb-4568-b2d5-52b5da1dd4a1" />
+
+---
+
+## 三、安裝 Ollama 及模型
+
+- 到 https://ollama.com 下載安裝，安裝完直接關掉就好。
+- 關掉 Visual Studio Code 再重新打開，以便 Visual Studio Code 讀到 Ollama 的路徑。
+- 點 Terminal 內的 New Terminal；點 + 選 Command Prompt；輸入 ollama pull qwen2.5-coder:7b 按下 Enter 以下載千問程式模型(約 4.7GB)。第一次會比較久,請耐心等到出現 success。這個模型在「小模型寫 diff」這件事上最穩,演化才跑得動。 顯卡夠力(20GB+)可改成 qwen2.5-coder:14b(config.yaml 也要一起改)。
+
+<img width="1622" height="523" alt="image" src="https://github.com/user-attachments/assets/f26fba3f-ab03-4374-ace1-33fd44cf44e8" />
+
+---
+
+## 四、開始演化
+
+點開 run.py 並點右上角的三角形開始執行
+
+<img width="1622" height="523" alt="image" src="https://github.com/user-attachments/assets/fed3bf90-877b-419c-baf7-c76cedadb852" />
+
+如果執行出問題的話，可以去控制台檢查看看"Beta: 使用 Unicode 提供全球語言技援"有沒有打勾
+
+<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/237acced-88e4-46cf-9867-2c991ea7ada2" />
+
+如果執行順利的話，你會看到一代一代的日誌,**分數慢慢往上爬**(初始約 0.75,會越來越接近 1.0 甚至更高),
 代表 LLM 找到的路線越來越短。
 
 跑的同時,打開資料夾裡的 **`route.png`**,它會即時更新——
