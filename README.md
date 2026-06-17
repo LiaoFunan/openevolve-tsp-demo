@@ -108,7 +108,11 @@
 
 <img width="1622" height="523" alt="image" src="https://github.com/user-attachments/assets/fed3bf90-877b-419c-baf7-c76cedadb852" />
 
-你會看到一代一代的日誌,**分數慢慢往上爬**(初始約 0.75,會越來越接近 1.0 甚至更高),
+如果執行出問題的話，可以去控制台檢查看看"Beta: 使用 Unicode 提供全球語言技援"有沒有打勾
+
+<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/237acced-88e4-46cf-9867-2c991ea7ada2" />
+
+如果執行順利的話，你會看到一代一代的日誌,**分數慢慢往上爬**(初始約 0.75,會越來越接近 1.0 甚至更高),
 代表 LLM 找到的路線越來越短。
 
 跑的同時,打開資料夾裡的 **`route.png`**,它會即時更新——
